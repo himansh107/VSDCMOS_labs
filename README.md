@@ -254,7 +254,7 @@ plot dc1.out vs in dc2.out vs in dc3.out vs in dc4.out vs in dc5.out vs in dc6.o
 Upon running the above spice code in ngspice we get the following plots:<br> <br>
 ![Screenshot 2024-03-05 211401](https://github.com/himansh107/VSDCMOS_labs/assets/75253218/4014e041-fbcf-4a6a-81e7-c9991d340b17) <br>
 
-### Comparison of gain of CMOS for different power supplies
+ **Comparison of gain of CMOS for different power supplies**
 
 Gain = Change in output per unit change in input
 
@@ -281,7 +281,7 @@ Sources of variation
     - Oxide thickness varies
     - Id varies with change in oxide thickness (inversely proportional)
 
-To perform the lab we use the code below. Note that the width of the PMOS is very large as compared to NMOS. This is done to simulate the process variation in W/L <br>
+To perform the lab we use the code below. Note that the width of the PMOS is huge as compared to NMOS. This is done to simulate the process variation in W/L <br>
 
 ```bash
 *Model Description
