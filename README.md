@@ -210,7 +210,118 @@ The transfer characteristics from which noise margin is calculated is given belo
  - Noise margin high = Voh - Vih = 1.689 - 0.970 = 0.7184
  - Noise margin low = Vil - Vol = 0.7836 - 0.1253 = 0.658. <br>
    
+## Lab 5 - Effect of power supply on gain of the CMOS
 
+As we reduce power supply the gain of the PMOS increases. This is proved in the following experiment.
+
+- Voltage transfer characteristics of CMOS was plotted for Vdd (power supply) varying from 1.8 to 0.8 at steps of 0.2.
+- Code for the same is given below:
+```bash
+*Model Description
+.param temp=27
+
+*Including sky130 library files
+.lib "sky130_fd_pr/models/sky130.lib.spice" tt
+
+*Netlist Description
+
+XM1 out in vdd vdd sky130_fd_pr__pfet_01v8 w=1 l=0.15
+XM2 out in 0 0 sky130_fd_pr__nfet_01v8 w=0.36 l=0.15
+
+Cload out 0 50fF
+
+Vdd vdd 0 1.8V
+Vin in 0 1.8V
+
+.control
+
+let powersupply = 1.8
+alter Vdd = powersupply
+        let voltagesupplyvariation = 0
+        dowhile voltagesupplyvariation < 6
+        dc Vin 0 1.8 0.01
+        let powersupply = powersupply - 0.2
+        alter Vdd = powersupply
+        let voltagesupplyvariation = voltagesupplyvariation + 1
+      end
+
+plot dc1.out vs in dc2.out vs in dc3.out vs in dc4.out vs in dc5.out vs in dc6.out vs in xlabel "input voltage(V)" ylabel "output voltage(V)" title "Inveter dc characteristics as a function of supply voltage"
+
+.endc
+
+.end
+```
+Upon running the above spice code in ngspice we get the following plots:<br> <br>
+![Screenshot 2024-03-05 211401](https://github.com/himansh107/VSDCMOS_labs/assets/75253218/4014e041-fbcf-4a6a-81e7-c9991d340b17) <br>
+
+### Comparison of gain of CMOS for different power supplies
+
+Gain = Change in output per unit change in input
+
+ - For each power supply two points were marked in VTC for calculating the gain.
+ - Gain = (y2 - y1)/(x2 -x1) <br>
+
+![Screenshot 2024-03-05 220245](https://github.com/himansh107/VSDCMOS_labs/assets/75253218/0d72a87a-8f3b-4531-958f-e262238ac10c)
+
+<br> From the above data and formula the gains were calculated as follows: <br>
+
+- Vdd = 1.8V, gain = 8.446
+- Vdd = 1.6V, gain = 8.81
+- Vdd = 1.4V, gain = 9.42
+- Vdd = 0.8V, gain = 9.638
+- As we can observe the gain increases with a reduction in power supply.
+
+## Lab 6 - Effect of process variations
+
+Sources of variation
+-	Etching <br>
+    - Etching varies the W/L ratio of a mosfet.
+    - Id changes with change in W/L
+-	Oxidation 
+    - Oxide thickness varies
+    - Id varies with change in oxide thickness (inversely proportional)
+
+To perform the lab we use the code below. Note that the width of the PMOS is very large as compared to NMOS. This is done to simulate the process variation in W/L <br>
+
+```bash
+*Model Description
+.param temp=27
+
+*Including sky130 library files
+.lib "sky130_fd_pr/models/sky130.lib.spice" tt
+
+*Netlist Description
+
+XM1 out in vdd vdd sky130_fd_pr__pfet_01v8 w=7 l=0.15
+XM2 out in 0 0 sky130_fd_pr__nfet_01v8 w=0.42 l=0.15
+
+Cload out 0 50fF
+
+Vdd vdd 0 1.8V
+Vin in 0 1.8V
+
+*simulation commands
+
+.op
+
+.dc Vin 0 1.8 0.01
+
+.control
+run
+setplot dc1
+display
+.endc
+
+.end
+```
+The plot of the above graph is shown below:<br> <br>
+![Screenshot 2024-03-05 230351](https://github.com/himansh107/VSDCMOS_labs/assets/75253218/017470fe-422b-4b9c-b001-2472d4fd2bb3)
+<br>
+
+- On observing the above graph we see that the graph is shifted more towards the right.
+- This is because we use a strong pMOS (w = 7, L = 0.15).
+- A strong pMOS has less resistance and charges the load capacitance to a strong 1. Hence the high part of the graph is wider.
+  
 *Thanks for reading*
 
 
