@@ -320,7 +320,8 @@ The plot of the above graph is shown below:<br> <br>
 
 - On observing the above graph we see that the graph is shifted more towards the right.
 - This is because we use a strong pMOS (w = 7, L = 0.15).
-- A strong pMOS has less resistance and charges the load capacitance to a strong 1. Hence the high part of the graph is wider.
+- A strong pMOS has a higher drive strength and charges load capacitance to Vdd for a longer duration.
+- Hence the high part of the graph is wider.
   
 *Thanks for reading*
 
